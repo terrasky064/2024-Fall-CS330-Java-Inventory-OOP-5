@@ -24,27 +24,34 @@ public class Armour extends Equippable implements Item
      * Format used to generate a printable representation.
      */
     public static final String FMT_STR = String.join(
-        "",
-        "  Nme: %s%n",
-        "  Dur: %s%n",
-        "  Def: %d%n",
-        "  Mtl: %s%n",
-        "  Mdr: %s (Lvl %d)%n",
-        "  Emt: %s%n"
+        System.lineSeparator(),
+        "  Nme: %s",
+        "  Dur: %s",
+        "  Def: %d",
+        "  Mtl: %s",
+        "  Mdr: %s (Lvl %d)",
+        "  Emt: %s",
+        ""
     );
+    protected String name;
+    protected int durability;
+    protected int defense;
+    protected String material;
+    protected String modifier;
+    protected int modifierLevel;
+    protected String element;
 
     /**
      * The amount of damage that can be negated.
      */
-    protected int defense;
+    
 
     /**
-     * Default to a armour with a defense of zero.
+     * Default to armour with a defense of zero.
      */
     public Armour()
     {
         super();
-
         this.defense = 0;
     }
 
@@ -54,7 +61,6 @@ public class Armour extends Equippable implements Item
     public Armour(String nme, int dur, int def, String mtl, String mdr, int lvl, String emt)
     {
         super(nme, dur, mtl, mdr, lvl, emt);
-
         this.defense = def;
     }
 
@@ -83,7 +89,13 @@ public class Armour extends Equippable implements Item
 
         Armour rhsItem = (Armour) rhs;
 
-        return false;
+        return this.getName().equals(rhsItem.getName())
+           
+            && this.getDefense() == rhsItem.getDefense()
+            && this.getMaterial().equals(rhsItem.getMaterial())
+            && this.getModifier().equals(rhsItem.getModifier())
+            && this.getModifierLevel() == rhsItem.getModifierLevel()
+            && this.getElement().equals(rhsItem.getElement());
     }
 
     /**
@@ -94,7 +106,12 @@ public class Armour extends Equippable implements Item
     public int hashCode()
     {
         return Objects.hash(
-            this.getName()
+            this.getName(),
+            this.getDefense(),
+            this.getMaterial(),
+            this.getModifier(),
+            this.getModifierLevel(),
+            this.getElement()
         );
     }
 
@@ -104,10 +121,15 @@ public class Armour extends Equippable implements Item
     @Override
     public String toString()
     {
-        return "Use the provided format string";
+        return String.format(
+            FMT_STR,
+            this.getName(),
+            this.getDurability(),
+            this.defense,
+            this.getMaterial(),
+            this.getModifier(),
+            this.getModifierLevel(),
+            this.getElement()
+        );
     }
 }
-
-
-
-

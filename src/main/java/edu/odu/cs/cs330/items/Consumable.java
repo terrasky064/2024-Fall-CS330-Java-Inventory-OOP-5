@@ -1,5 +1,7 @@
 package edu.odu.cs.cs330.items;
 
+import java.util.Objects;
+
 /**
  * This class represents one Consumable Item--as found in most video games.
  * This includes food.
@@ -14,8 +16,7 @@ package edu.odu.cs.cs330.items;
     "PMD.OnlyOneReturn",
     "PMD.ProperCloneImplementation",
     "PMD.MethodArgumentCouldBeFinal",
-    "PMD.LocalVariableCouldBeFinal",
-    "PMD.BeanMembersShouldSerialize"
+    "PMD.LocalVariableCouldBeFinal"
 })
 public class Consumable implements Item {
     /**
@@ -44,27 +45,24 @@ public class Consumable implements Item {
     protected final int uses;
 
     /**
-     * Default to a Consumable Item with an empty name, no effect and zero
+     * Default to a Consumable Item with an empty name, no effect, and zero
      * uses.
      */
-    public Consumable()
-    {
+    public Consumable() {
         this("[Placeholder]", "", 0);
     }
 
     /**
      * Create a fully initialized Consumable.
      */
-    public Consumable(String name, String effect, int uses)
-    {
+    public Consumable(String name, String effect, int uses) {
         this.name = name;
         this.effect = effect;
-        this.uses   = uses;
+        this.uses = uses;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
@@ -73,24 +71,21 @@ public class Consumable implements Item {
      *
      * @return the set effect (i.e., buff or debuff)
      */
-    public String getEffect()
-    {
+    public String getEffect() {
         return this.effect;
     }
 
     /**
-     * Retrieve permitted number of uses.
+     * Retrieve the number of permitted uses.
      *
      * @return number of total uses
      */
-    public int getNumberOfUses()
-    {
+    public int getNumberOfUses() {
         return this.uses;
     }
 
     @Override
-    public boolean isStackable()
-    {
+    public boolean isStackable() {
         return true;
     }
 
@@ -100,35 +95,30 @@ public class Consumable implements Item {
      * @param rhs object for which a comparison is desired
      */
     @Override
-    public boolean equals(Object rhs)
-    {
+    public boolean equals(Object rhs) {
         if (!(rhs instanceof Consumable)) {
             return false;
         }
 
         Consumable rhsItem = (Consumable) rhs;
 
-        return false;
+        return this.name.equals(rhsItem.name)
+            && this.effect.equals(rhsItem.effect);
     }
 
     /**
      * Generate a hash code based on name and effect.
-     *
-     * Add <code>name.hashCode()</code> and <code>effect.hashCode</code>, then
-     * return the result.
      */
     @Override
-    public int hashCode()
-    {
-        return -1;
+    public int hashCode() {
+        return Objects.hash(this.name, this.effect);
     }
 
     /**
      * *Print* the Consumable Item.
      */
     @Override
-    public String toString()
-    {
-        return "Not Implemented";
+    public String toString() {
+        return String.format(FMT_STR, this.name, this.effect, this.uses);
     }
 }

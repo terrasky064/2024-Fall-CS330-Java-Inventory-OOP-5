@@ -1,5 +1,7 @@
 package edu.odu.cs.cs330.items;
 
+import java.util.Objects;
+
 /**
  * This class represents one tool--as found in most video games. This includes
  * pickaxes and shovels.
@@ -16,7 +18,7 @@ package edu.odu.cs.cs330.items;
     "PMD.ProperCloneImplementation",
     "PMD.MethodArgumentCouldBeFinal",
     "PMD.LocalVariableCouldBeFinal",
-    "PMD.ShortClassName",
+    "PMD.ShortClassName"
 })
 public class Tool extends Equippable implements Item {
     /**
@@ -39,20 +41,16 @@ public class Tool extends Equippable implements Item {
     /**
      * Default to an unstackable tool with zero speed.
      */
-    public Tool()
-    {
-        super();
-
+    public Tool() {
+        super("", 0, "", "", 0, "No Element");
         this.speed = 0;
     }
 
     /**
      * Create a fully initialized Tool.
      */
-    public Tool(String nme, int dur, int spd, String mtl, String mdr, int lvl)
-    {
+    public Tool(String nme, int dur, int spd, String mtl, String mdr, int lvl) {
         super(nme, dur, mtl, mdr, lvl, "No Element");
-
         this.speed = spd;
     }
 
@@ -61,27 +59,29 @@ public class Tool extends Equippable implements Item {
      *
      * @return how quickly a tool operates
      */
-    public int getSpeed()
-    {
+    public int getSpeed() {
         return this.speed;
     }
 
     /**
      * Check for logical equivalence--based on name, speed, material, modifier,
-     * and modifierLevel
+     * and modifierLevel.
      *
      * @param rhs object for which a comparison is desired
      */
     @Override
-    public boolean equals(Object rhs)
-    {
+    public boolean equals(Object rhs) {
         if (!(rhs instanceof Tool)) {
             return false;
         }
 
-        Tool rhsItem = (Tool) rhs;
+        Tool rhsTool = (Tool) rhs;
 
-        return false;
+        return this.getName().equals(rhsTool.getName())
+            && this.speed == rhsTool.speed
+            && this.getMaterial().equals(rhsTool.getMaterial())
+            && this.getModifier().equals(rhsTool.getModifier())
+            && this.getModifierLevel() == rhsTool.getModifierLevel();
     }
 
     /**
@@ -89,23 +89,29 @@ public class Tool extends Equippable implements Item {
      * and modifierLevel.
      */
     @Override
-    public int hashCode()
-    {
-        int hash = this.getName().hashCode();
-        hash += 2 * this.getMaterial().hashCode();
-        hash += 4 * this.getModifier().hashCode();
-        hash += 8 * this.getModifierLevel();
-        hash += 32 * this.getSpeed();
-
-        return hash;
+    public int hashCode() {
+        return Objects.hash(
+            this.getName(),
+            this.speed,
+            this.getMaterial(),
+            this.getModifier(),
+            this.getModifierLevel()
+        );
     }
 
     /**
      * *Print* a Tool.
      */
     @Override
-    public String toString()
-    {
-        return "String.format(FMT_STR, ...)";
+    public String toString() {
+        return String.format(
+            FMT_STR,
+            this.getName(),
+            this.getDurability(),
+            this.speed,
+            this.getMaterial(),
+            this.getModifier(),
+            this.getModifierLevel()
+        );
     }
 }
